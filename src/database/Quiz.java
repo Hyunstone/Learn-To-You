@@ -13,7 +13,7 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return "Quiz 문항" + number + ". " + problem  ;
+		return number + "/" + problem;
 	}
 	
 }

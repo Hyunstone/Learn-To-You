@@ -1,36 +1,32 @@
 package ui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import database.Quiz;
-import database.Total;
 import network.MultiChatClient;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
 import java.awt.Color;
-import javax.swing.JList;
+import java.io.*;
+import java.net.Socket;
+
 public class TeacherUI extends JFrame {
 	private MultiChatClient mcc;
 	private JPanel contentPane;
 	public String teacherName;
-	private Total total ;
 	private JList list ;
 	private JList list_1 ;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
+	private Socket socket;
+	private BufferedReader response;
+	private BufferedWriter request;
+	private String serverIp = "127.0.0.1";
+	DefaultListModel listModel;
+
 	
-	public TeacherUI(String teacherName, Total total) {
+	public TeacherUI(String teacherName) {
 		this.teacherName  = teacherName;  //이름 설정
-		this.total = total;
+		this.serverIp = serverIp;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 465, 353);
@@ -73,23 +69,26 @@ public class TeacherUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String quizEx = JOptionPane.showInputDialog("문제를 입력하세요 ");
 				String answerEx = JOptionPane.showInputDialog("답안을 입력하세요 ");
-				total.quiz.add(new Quiz( total.quiz.size(), quizEx,answerEx));
+				String response = "0/0" + "/" + quizEx + "/" + answerEx + "\r\n";
+				System.out.println(response);
+				requestServer(response, serverIp);
+				//total.quiz.add(new Quiz( total.quiz.size(), quizEx,answerEx));
 			}
 		});
 		btnNewButton_1.setBounds(25, 49, 97, 23);
 		contentPane.add(btnNewButton_1);
 		
-		lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
+		//lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
 		
 		JButton btnNewButton_2 = new JButton("결과보기");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(total.challengeInfo.size() == 0) {
+				/*if(total.challengeInfo.size() == 0) {
 					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
 				}else {
 					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
 					list_1.setListData(total.challengeInfo);
-				}
+				}*/
 			}
 		});
 		btnNewButton_2.setBounds(273, 49, 97, 23);
@@ -108,19 +107,29 @@ public class TeacherUI extends JFrame {
 		lblNewLabel_1 = new JLabel(""); //등록된 문제 몇문항?
 		lblNewLabel_1.setBounds(12, 10, 162, 15);
 		panel.add(lblNewLabel_1);
-		if(total.quiz.size() ==0) {
-			lblNewLabel_1.setText("등록된 문제가 없습니다.");
-		}else {
-			lblNewLabel_1.setText("등록된 문제 "+ total.quiz.size() +"건 있습니다.");
-		}
+		lblNewLabel_1.setText("문제 보기 버튼을 눌러주세요");
+
 		JButton btnNewButton_3 = new JButton("등록된 문제보기");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(total.quiz.size() ==0) {
+				String request = "0/1" + "\r\n";
+				String response = requestServer(request, serverIp);
+				// 이 부분은 '[,]' 이거 날리는 부분입니다.
+				response = response.replace(String.valueOf(response.charAt(0)), "");
+				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
+				String[] resArr = response.split(",");
+
+				if(resArr.length == 0) {
 					lblNewLabel_1.setText("등록된 문제가 없습니다.");
 				}else {
-					lblNewLabel_1.setText("등록된 문제 "+ total.quiz.size() +"건 있습니다.");
-					list.setListData(total.quiz);	
+					listModel = new DefaultListModel();
+					for (String res : resArr) {
+						System.out.println(res);
+						listModel.addElement(res);
+					}
+
+					lblNewLabel_1.setText("등록된 문제 "+ resArr.length +"건 있습니다.");
+					list.setModel(listModel);
 				}
 			}
 		});
@@ -137,4 +146,28 @@ public class TeacherUI extends JFrame {
 		contentPane.add(btnNewButton_4);
 	}
 
+	public String requestServer(String requestString, String ip) {
+		String responseOutput = null;
+		try {
+			// 소켓 생성
+			socket = new Socket(ip, 8889);
+			//System.out.println("[Client]Server 연결 성공!!");
+
+			response = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			request = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+			request.write(requestString);
+			request.flush();
+
+			responseOutput = response.readLine();
+			//String[] strArr = responseOutput.split("/");
+			System.out.println(responseOutput);
+
+			socket.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return responseOutput;
+	}
 }

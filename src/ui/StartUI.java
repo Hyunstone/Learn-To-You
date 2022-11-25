@@ -75,7 +75,7 @@ public class StartUI extends JFrame {
 			            	
 			            	if(key.equals("교수")) {
 			            		setVisible(false);
-			            		teacherUI = new TeacherUI(value, total);
+			            		teacherUI = new TeacherUI(value);
 			            		teacherUI.setVisible(true);
 			            	} else {
 			            		setVisible(false);

@@ -42,8 +42,10 @@ public class MultiChatServer {
 		}   
 	} 
 	
-	/*public static void main(String[] args) {
-	}*/
+	public static void main(String[] args) {
+		MultiChatServer chatServer = new MultiChatServer();
+		chatServer.start();
+	}
 	
 	// 연결된 모든 클라이언트에 메시지 중계
 	void msgSendAll(String msg) {

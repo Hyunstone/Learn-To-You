@@ -6,7 +6,7 @@ public class ChallengeInfo {
 	public int quizNumber;
 	public String result;
 
-	// 학생 정답여부 정보
+	// 학생 답안 정보
 	public ChallengeInfo(String name,int quizNumber,String result ) {
 		this.name = name;
 		this.quizNumber = quizNumber;

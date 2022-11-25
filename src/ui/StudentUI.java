@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -47,7 +45,7 @@ public class StudentUI extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		list = new JList();
-		list.setListData(total.quiz);	
+		//list.setListData(total.quiz);
 		list.setBounds(25, 79, 130, 132);
 		contentPane.add(list);
 		

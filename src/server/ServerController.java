@@ -1,6 +1,8 @@
 package server;
 
+import database.Quiz;
 import database.Total;
+import java.util.ArrayList;
 
 public class ServerController {
     // 여기에 total을 추가는 했는데 없앨수도 O
@@ -17,23 +19,33 @@ public class ServerController {
     // request 받은 내용을 분석 후 알맞은 행동을 선택하도록 리턴
     public String response(String request) {
         String act = null;
-
+        System.out.println("작동중");
+        System.out.println(request);
         // 선생 프로토콜 호출
         if (isTeacherProtocol(request)) {
+            System.out.println("선생님 안속");
             // 문제 저장
-            if (callProtocol(request) == 0) {
-                teacherProtocol.getProblem(request);
+            if (callProtocol(request).equals("0")) {
+                teacherProtocol.getQuiz(request);
+                return "문제 입력 완료\r\n";
             }
-            // 학샏을 점수 불러오기
-            else if (callProtocol(request) == 1) {
+            // 문제 불러오기
+            else if (callProtocol(request).equals("1")) {
+                //System.out.println("^^");
+                ArrayList<Quiz> quiz = teacherProtocol.pushQuiz();
+                System.out.println(quiz);
+                return (quiz + "\r\n");
+            }
+            // 학생들 점수 불러오기
+            else if (callProtocol(request).equals("2")) {
                 teacherProtocol.pushStudentScore();
             }
         }
         else {
-            if (callProtocol(request) == 0) {
+            if (callProtocol(request).equals("0")) {
 
             }
-            else if (callProtocol(request) == 1) {
+            else if (callProtocol(request).equals("1")) {
 
             }
         }
@@ -45,17 +57,14 @@ public class ServerController {
     // 0이면 true 리턴(선생프로토콜 호출), 0이 아니면(1이면) false 리턴(학생프로토콜 호출)
     private boolean isTeacherProtocol(String str) {
         String[] strArr = str.split("/");
-        if (strArr[0] == "0") {
-            return true;
-        }
-        return false;
+        return strArr[0].equals("0");
     }
 
     // 프로토콜 내용 전달
     // request에 있는 프로토콜을 리턴
-    private int callProtocol(String request) {
+    private String callProtocol(String request) {
         String[] strArr = request.split("/");
-        return Integer.parseInt(strArr[1]);
+        return strArr[1];
     }
     // 학생의 답안으로 채점
     private Boolean gradeProblem() {
