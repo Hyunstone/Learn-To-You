@@ -14,19 +14,19 @@ public class ServerController {
     public ServerController(Total total) {
         this.total = total;
         teacherProtocol = new TeacherProtocol(total);
-        studentProtocol = new StudentProtocol();
+        studentProtocol = new StudentProtocol(total);
     }
 
     // request 받은 내용을 분석 후 알맞은 행동을 선택하도록 리턴
     public String response(String request) {
         String act = null;
-        System.out.println("작동중");
-        System.out.println(request);
-        // 선생 프로토콜 호출
+        //System.out.println("작동중");
+        //System.out.println(request);
+        // 선생 프로토콜
         if (isTeacherProtocol(request)) {
             // 문제 저장
             if (callProtocol(request).equals("0")) {
-                teacherProtocol.getQuiz(request);
+                teacherProtocol.setQuiz(request);
                 return "문제 입력 완료\r\n";
             }
             // 문제 불러오기
@@ -42,10 +42,14 @@ public class ServerController {
             }
             // 추가 구현: 학생들 점수만 가져오기
         }
+        // 학생 프로토콜
         else {
+            // 문제 가져오기
             if (callProtocol(request).equals("0")) {
-
+                ArrayList<Quiz> quiz = studentProtocol.pushQuiz();
+                return quiz + "\r\n";
             }
+            // 정답 제출하기
             else if (callProtocol(request).equals("1")) {
 
             }
@@ -67,6 +71,7 @@ public class ServerController {
         String[] strArr = request.split("/");
         return strArr[1];
     }
+
     // 학생의 답안으로 채점
     private Boolean gradeProblem() {
 

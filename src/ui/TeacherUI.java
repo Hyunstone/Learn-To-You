@@ -105,13 +105,6 @@ public class TeacherUI extends JFrame {
 					lblNewLabel_1.setText("제출된 답안이 " + resArr.length + "건 있습니다.");
 					list_1.setModel(listModel);
 				}
-
-				/*if(total.challengeInfo.size() == 0) {
-					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
-				}else {
-					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
-					list_1.setListData(total.challengeInfo);
-				}*/
 			}
 		});
 		btnNewButton_2.setBounds(273, 49, 97, 23);

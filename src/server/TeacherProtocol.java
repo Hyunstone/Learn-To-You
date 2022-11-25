@@ -15,7 +15,7 @@ public class TeacherProtocol {
     // 선생으로부터 문제를 서버에 저장
     // 선생 / 프로토콜 / 문제 / 정답
     // 문제는 문제, 문제 정답의 형식
-    public void getQuiz(String request) {
+    public void setQuiz(String request) {
         String[] strArr = request.split("/");
         total.quiz.add(new Quiz(total.quiz.size() + 1, strArr[2], strArr[3]));
     }
@@ -27,7 +27,6 @@ public class TeacherProtocol {
         return total.quiz;
     }
 
-
     // 학생들의 답안을 선생에게 줌
     public ArrayList<ChallengeInfo> pushStudentAnswer() {
         for (ChallengeInfo challengeInfo: total.challengeInfo) {
@@ -35,8 +34,4 @@ public class TeacherProtocol {
         }
         return total.challengeInfo;
     }
-
-
-
-
 }

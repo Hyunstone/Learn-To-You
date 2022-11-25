@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -79,7 +77,7 @@ public class StartUI extends JFrame {
 			            		teacherUI.setVisible(true);
 			            	} else {
 			            		setVisible(false);
-			            		studentUI = new StudentUI(value, total);
+			            		studentUI = new StudentUI(value);
 			            		studentUI.setVisible(true);
 			            	}
 			            }
