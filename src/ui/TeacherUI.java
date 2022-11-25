@@ -2,12 +2,14 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import network.MultiChatClient;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.io.*;
 import java.net.Socket;
+
+import network.MultiChatClient;
+
 
 public class TeacherUI extends JFrame {
 	private MultiChatClient mcc;
@@ -70,19 +72,40 @@ public class TeacherUI extends JFrame {
 				String quizEx = JOptionPane.showInputDialog("문제를 입력하세요 ");
 				String answerEx = JOptionPane.showInputDialog("답안을 입력하세요 ");
 				String response = "0/0" + "/" + quizEx + "/" + answerEx + "\r\n";
-				System.out.println(response);
-				requestServer(response, serverIp);
-				//total.quiz.add(new Quiz( total.quiz.size(), quizEx,answerEx));
+				// 두 값중 하나라도 안넣으면 문제 추가 X
+				if(!(quizEx == null) && !(answerEx == null)) {
+					requestServer(response, serverIp);
+				}
+				//System.out.println(response);
 			}
 		});
 		btnNewButton_1.setBounds(25, 49, 97, 23);
 		contentPane.add(btnNewButton_1);
-		
-		//lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
+		lblNewLabel_2.setText("시험응시 결과 버튼을 눌러주세요");
 		
 		JButton btnNewButton_2 = new JButton("결과보기");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String request = "0/2" + "\r\n";
+				String response = requestServer(request, serverIp);
+				// 이 부분은 '[,]' 이거 날리는 부분입니다.
+				response = response.replace(String.valueOf(response.charAt(0)), "");
+				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
+				String[] resArr = response.split(",");
+
+				if(resArr.length == 0) {
+					lblNewLabel_1.setText("제출된 답안이 없습니다.");
+				} else {
+					listModel = new DefaultListModel();
+					for (String res : resArr) {
+						System.out.println(res);
+						listModel.addElement(res);
+					}
+
+					lblNewLabel_1.setText("제출된 답안이 " + resArr.length + "건 있습니다.");
+					list_1.setModel(listModel);
+				}
+
 				/*if(total.challengeInfo.size() == 0) {
 					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
 				}else {
@@ -121,7 +144,7 @@ public class TeacherUI extends JFrame {
 
 				if(resArr.length == 0) {
 					lblNewLabel_1.setText("등록된 문제가 없습니다.");
-				}else {
+				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
 						System.out.println(res);

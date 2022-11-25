@@ -1,5 +1,6 @@
 package server;
 
+import database.ChallengeInfo;
 import database.Quiz;
 import database.Total;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ public class ServerController {
         System.out.println(request);
         // 선생 프로토콜 호출
         if (isTeacherProtocol(request)) {
-            System.out.println("선생님 안속");
             // 문제 저장
             if (callProtocol(request).equals("0")) {
                 teacherProtocol.getQuiz(request);
@@ -31,15 +31,16 @@ public class ServerController {
             }
             // 문제 불러오기
             else if (callProtocol(request).equals("1")) {
-                //System.out.println("^^");
                 ArrayList<Quiz> quiz = teacherProtocol.pushQuiz();
-                System.out.println(quiz);
-                return (quiz + "\r\n");
+                //System.out.println(quiz);
+                return quiz + "\r\n";
             }
-            // 학생들 점수 불러오기
+            // 학생들 답안 불러오기
             else if (callProtocol(request).equals("2")) {
-                teacherProtocol.pushStudentScore();
+                ArrayList<ChallengeInfo> challengeInfos = teacherProtocol.pushStudentAnswer();
+                return challengeInfos + "\r\n";
             }
+            // 추가 구현: 학생들 점수만 가져오기
         }
         else {
             if (callProtocol(request).equals("0")) {

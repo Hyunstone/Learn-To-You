@@ -1,5 +1,6 @@
 package server;
 
+import database.ChallengeInfo;
 import database.Quiz;
 import database.Total;
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ public class TeacherProtocol {
     }
 
 
-    // 학생들의 점수를 선생에게 줌
-    public String pushStudentScore() {
-
-        return null;
+    // 학생들의 답안을 선생에게 줌
+    public ArrayList<ChallengeInfo> pushStudentAnswer() {
+        for (ChallengeInfo challengeInfo: total.challengeInfo) {
+            System.out.println(challengeInfo.name + " " + challengeInfo.quizNumber + " " + challengeInfo.result);
+        }
+        return total.challengeInfo;
     }
 
 

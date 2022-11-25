@@ -15,7 +15,7 @@ public class ChallengeInfo {
 
 	@Override
 	public String toString() {
-		return "학생 " + name + "이 퀴즈문항 " + quizNumber + "번 " + result ;
+		return name + "/" + quizNumber + "/" + result ;
 	}
 
 }
