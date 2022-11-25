@@ -50,7 +50,7 @@ public class TeacherUI extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		 list_1 = new JList(); //결과 볼수 있는 곳
+		list_1 = new JList(); //결과 볼수 있는 곳
 		list_1.setBounds(12, 30, 172, 129);
 		panel_1.add(list_1);
 		
@@ -88,7 +88,7 @@ public class TeacherUI extends JFrame {
 					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
 				}else {
 					lblNewLabel_2.setText("시험응시 결과 " + total.challengeInfo.size() + "건 입니다.");
-					list_1.setListData(total.challengeInfo);	
+					list_1.setListData(total.challengeInfo);
 				}
 			}
 		});

@@ -15,4 +15,5 @@ public class Total {
 		info.add("학생4","사");
 		quiz.add(new Quiz(1, "거북이와 토끼중 소화불량인 동물은?","거북"));
 	}
+
 }
