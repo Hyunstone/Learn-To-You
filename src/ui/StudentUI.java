@@ -2,6 +2,8 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import network.MultiChatClient;
 
@@ -28,6 +30,8 @@ public class StudentUI extends JFrame {
 	private Socket socket;
 	DefaultListModel listModel;
 
+	private String quizNumber;
+
 	public StudentUI(String  studentName) {
 		this.studentName  = studentName;  //이름 설정
 		this.serverIp = serverIp;
@@ -49,12 +53,17 @@ public class StudentUI extends JFrame {
 		list.setBounds(25, 79, 130, 132);
 		contentPane.add(list);
 
-		/*list.addListSelectionListener(new ListSelectionListener() {
+		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				lblNewLabel_2.setText((String)list.getSelectedValue());
+			public void valueChanged(ListSelectionEvent event) {
+				if(!event.getValueIsAdjusting()) {
+					String quizText = (String) list.getSelectedValue();
+					quizNumber = String.valueOf(quizText.charAt(0));
+					lblNewLabel_2.setText(quizText);
+					textField.setText("");
+				}
 			}
-		});*/
+		});
 
 		JButton quizRefreshButton = new JButton("문제 불러오기");
 		quizRefreshButton.setFont(new Font("맑은 고딕",Font.BOLD, 10));
@@ -74,6 +83,7 @@ public class StudentUI extends JFrame {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
 						System.out.println(res);
+						res = res.trim();
 						listModel.addElement(res);
 					}
 
@@ -117,7 +127,10 @@ public class StudentUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("제출");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String request = "1/1";
+				request = request + "/" + studentName + "/ " + quizNumber + "/" + textField.getText() + "\r\n";
+				requestServer(request, serverIp);
+				textField.setText("");
 			}
 		});
 		btnNewButton_1.setBounds(153, 122, 61, 41);

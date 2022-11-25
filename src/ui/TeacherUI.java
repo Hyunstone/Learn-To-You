@@ -94,7 +94,7 @@ public class TeacherUI extends JFrame {
 				String[] resArr = response.split(",");
 
 				if(resArr.length == 0) {
-					lblNewLabel_1.setText("제출된 답안이 없습니다.");
+					lblNewLabel_2.setText("제출된 답안이 없습니다.");
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
@@ -102,7 +102,7 @@ public class TeacherUI extends JFrame {
 						listModel.addElement(res);
 					}
 
-					lblNewLabel_1.setText("제출된 답안이 " + resArr.length + "건 있습니다.");
+					lblNewLabel_2.setText("제출된 답안이 " + resArr.length + "건 있습니다.");
 					list_1.setModel(listModel);
 				}
 			}

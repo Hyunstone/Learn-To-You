@@ -1,5 +1,6 @@
 package server;
 
+import database.ChallengeInfo;
 import database.Quiz;
 import database.Total;
 
@@ -20,10 +21,12 @@ public class StudentProtocol {
         }
         return total.quiz;
     }
-    // 학생들로부터 답안 받아오기
-    public String getAnswer() {
-
-        return null;
+    // 학생들로부터 답안 저장
+    public void setAnswer(String request) {
+        String[] strArr = request.split("/");
+        String tempStr = strArr[3];
+        int quizNum = Integer.parseInt(tempStr.trim());
+        total.challengeInfo.add(new ChallengeInfo(strArr[2], quizNum, strArr[4]));
     }
 
 }

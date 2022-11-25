@@ -51,7 +51,8 @@ public class ServerController {
             }
             // 정답 제출하기
             else if (callProtocol(request).equals("1")) {
-
+                studentProtocol.setAnswer(request);
+                return "정답 제출 완료\r\n";
             }
         }
 

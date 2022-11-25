@@ -27,7 +27,7 @@ public class TeacherProtocol {
         return total.quiz;
     }
 
-    // 학생들의 답안을 선생에게 줌
+    // 서버에 있는 학생들의 답안을 선생에게 줌
     public ArrayList<ChallengeInfo> pushStudentAnswer() {
         for (ChallengeInfo challengeInfo: total.challengeInfo) {
             System.out.println(challengeInfo.name + " " + challengeInfo.quizNumber + " " + challengeInfo.result);

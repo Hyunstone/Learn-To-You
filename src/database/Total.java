@@ -9,7 +9,7 @@ public class Total {
 
 	public Total() {
 		info.add("교수","1" );
-		info.add("학생1","1");
+		info.add("학생1","딱");
 		info.add("학생2","2");
 		info.add("학생3","3");
 		info.add("학생4","4");
