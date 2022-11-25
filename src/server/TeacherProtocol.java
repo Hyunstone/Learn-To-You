@@ -11,12 +11,11 @@ public class TeacherProtocol {
     }
 
     // 선생으로부터 문제를 서버에 저장
-    public String getProblem(String request) {
-        // 문제내용, 정답 넣어줘야 함
-        
-        //total.quiz.add(new Quiz(total.quiz.size(), ));
-
-        return null;
+    // 선생 / 프로토콜 / 문제 / 정답
+    // 문제는 문제, 문제 정답의 형식
+    public void getProblem(String request) {
+        String[] strArr = request.split("/");
+        total.quiz.add(new Quiz(total.quiz.size(), strArr[2], strArr[3]));
     }
 
 
