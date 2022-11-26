@@ -1,10 +1,11 @@
 package database;
-
-import java.util.HashMap;
-
 public class LoginInfo {
-	public HashMap<String,String> loginInfo = new HashMap<>();
-	void add(String job, String name) {
-		loginInfo.put(job, name);
+	public String job;
+	public String name;
+	public int point;
+	public LoginInfo(String job, String name, int point){
+		this.job = job;
+		this.name = name;
+		this.point = point;
 	}
 }

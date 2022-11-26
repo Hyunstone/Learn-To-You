@@ -5,7 +5,7 @@ public class Quiz {
 	public String problem;
 	public String answer;
 	
-	public Quiz(int number ,String problem ,String answer) {
+	public Quiz(int number, String problem ,String answer) {
 		this.number=number;
 		this.problem=problem;
 		this.answer=answer;

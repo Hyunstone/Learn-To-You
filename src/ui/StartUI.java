@@ -63,12 +63,12 @@ public class StartUI extends JFrame {
 				String id = textField.getText();  //("등록구분");
 				String pwd = textField_1.getText(); //("닉네임");
 				
-				if (!(total.info.loginInfo.containsKey(id))) {
+				if ((total.info.contains(id))) {
 					lblNewLabel_3.setText("등록된 구분자가 없습니다!");
 				} else {
-					for (Map.Entry<String, String> entry : total.info.loginInfo.entrySet() ) {
-			            String key = entry.getKey();
-			            String value = entry.getValue();
+					for (int a = 0; a < total.info.size(); a++) {
+			            String key = total.info.get(a).job;
+			            String value = total.info.get(a).name;
 			            if(key.equals(id)&&value.equals(pwd) ) {
 			            	
 			            	if(key.equals("교수")) {
