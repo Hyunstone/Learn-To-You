@@ -49,7 +49,6 @@ public class StudentUI extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		list = new JList();
-		//list.setListData(total.quiz);
 		list.setBounds(25, 79, 130, 132);
 		contentPane.add(list);
 
@@ -139,7 +138,7 @@ public class StudentUI extends JFrame {
 		JButton btnNewButton_2 = new JButton("채팅을 원하시면, 클릭하세요.");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mcc = new MultiChatClient("127.0.0.1");
+				mcc = new MultiChatClient("127.0.0.1", studentName);
 			}
 		});
 		btnNewButton_2.setBounds(25, 268, 379, 23);
@@ -160,7 +159,6 @@ public class StudentUI extends JFrame {
 			request.flush();
 
 			responseOutput = response.readLine();
-			//String[] strArr = responseOutput.split("/");
 			System.out.println(responseOutput);
 
 			socket.close();

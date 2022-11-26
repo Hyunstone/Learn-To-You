@@ -155,7 +155,7 @@ public class TeacherUI extends JFrame {
 		JButton btnNewButton_4 = new JButton("채팅을 원하시면, 클릭하세요.");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mcc = new MultiChatClient("127.0.0.1");
+				mcc = new MultiChatClient("127.0.0.1", teacherName);
 			}
 		});
 		btnNewButton_4.setBounds(28, 270, 394, 23);

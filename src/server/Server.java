@@ -7,9 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    // 여기도 없앨수도 O
     Total total;
-
 
     // 서버 소켓과 클라이언트 연결 소켓
     private ServerSocket ss = null;

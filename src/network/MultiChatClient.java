@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 
 public class MultiChatClient implements ActionListener, Runnable {
     private String ip;
-    private String id;
     private Socket socket;
     private BufferedReader inMsg = null;
     private PrintWriter outMsg = null;
@@ -34,7 +33,7 @@ public class MultiChatClient implements ActionListener, Runnable {
     // 대화명 라벨
     private JLabel label1;
     // 대화명 입력 텍스트 필드
-    private JTextField idInput;
+    private JLabel idLabel;
 
     // 로그아웃 패널 구성
     private JPanel logoutPanel;
@@ -59,25 +58,29 @@ public class MultiChatClient implements ActionListener, Runnable {
     private Container tab;
     private CardLayout clayout;
     private Thread thread;
+    private String name;
 
     // 상태 플래그
     boolean status;
 
-    public MultiChatClient(String ip) {
+    public MultiChatClient(String ip, String name) {
         this.ip = ip;
+        this.name = name;
 
         // 로그인 패널 구성
         loginPanel = new JPanel();
         // 레이아웃 설정
         loginPanel.setLayout(new BorderLayout());
-        idInput = new JTextField(15);
-        loginButton = new JButton("로그인");
+        idLabel = new JLabel();
+        idLabel.setText(name);
+
+        loginButton = new JButton("대화시작");
         // 이벤트 리스너 등록
         loginButton.addActionListener(this);
-        label1 = new JLabel("대화명");
+        label1 = new JLabel("사용자:");
         // 패널에 위젯 구성
         loginPanel.add(label1, BorderLayout.WEST);
-        loginPanel.add(idInput, BorderLayout.CENTER);
+        loginPanel.add(idLabel, BorderLayout.CENTER);
         loginPanel.add(loginButton, BorderLayout.EAST);
 
         // 로그아웃 패널 구성
@@ -85,6 +88,7 @@ public class MultiChatClient implements ActionListener, Runnable {
         // 레이아웃 설정
         logoutPanel.setLayout(new BorderLayout());
         label2 = new JLabel();
+        label2.setText("대화명 : " + name);
         logoutButton = new JButton("로그아웃");
         // 이벤트 리스너 등록
         logoutButton.addActionListener(this);
@@ -144,7 +148,7 @@ public class MultiChatClient implements ActionListener, Runnable {
             outMsg = new PrintWriter(socket.getOutputStream(), true);
 
             // 서버에 로그인 메시지 전달
-            outMsg.println(id + "/"+"login");
+            outMsg.println(name + "/"+"login");
 
             // 메시지 수신을 위한 스레드 생성
             thread = new Thread(this);
@@ -163,14 +167,11 @@ public class MultiChatClient implements ActionListener, Runnable {
         if(obj == exitButton) {
             System.exit(0);
         } else if(obj == loginButton) {
-            id = idInput.getText();
-
-            label2.setText("대화명 : " + id);
             clayout.show(tab, "logout");
             connectServer();
         } else if(obj == logoutButton) {
             // 로그아웃 메시지 전송
-            outMsg.println(id + "/" + "logout");
+            outMsg.println(name + "/" + "logout");
             // 대화 창 클리어
             msgOut.setText("");
             // 로그인 패널로 전환
@@ -186,8 +187,8 @@ public class MultiChatClient implements ActionListener, Runnable {
             status = false;
         } else if(obj == msgInput) {
             // 메시지 전송
-            outMsg.println(id + "/" + msgInput.getText());
-            System.out.println(id);
+            outMsg.println(name + "/" + msgInput.getText());
+            System.out.println(name);
             System.out.println(msgInput.getText());
             // 입력 창 클리어
             msgInput.setText("");
@@ -219,9 +220,5 @@ public class MultiChatClient implements ActionListener, Runnable {
         }
 
         System.out.println("[MultiChatClient]" + thread.getName() + "종료됨");
-    }
-
-    public static void main(String[] args) {
-        MultiChatClient mcc = new MultiChatClient("127.0.0.1");
     }
 }
