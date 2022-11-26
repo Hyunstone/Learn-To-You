@@ -10,7 +10,6 @@ import java.net.Socket;
 
 import network.MultiChatClient;
 
-
 public class TeacherUI extends JFrame {
 	private MultiChatClient mcc;
 	private JPanel contentPane;
