@@ -32,7 +32,7 @@ public class StudentUI extends JFrame {
 
 	private String quizNumber;
 
-	public StudentUI(String  studentName) {
+	public StudentUI(String studentName) {
 		this.studentName  = studentName;  //이름 설정
 		this.serverIp = serverIp;
 
@@ -91,8 +91,20 @@ public class StudentUI extends JFrame {
 				}
 			}
 		});
-
 		contentPane.add(quizRefreshButton);
+
+		JButton pointCheckButton = new JButton("현제 점수 확인");
+		pointCheckButton.setFont(new Font("맑은 고딕",Font.BOLD, 10));
+		pointCheckButton.setBounds(250, 55, 100, 23);
+
+		pointCheckButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String request = "1/2/" + studentName + "\r\n";
+				String response = requestServer(request, serverIp);
+				JOptionPane.showMessageDialog(null, response);
+			}
+		});
+		contentPane.add(pointCheckButton);
 
 		JLabel lblNewLabel_1 = new JLabel(studentName + "님께서 로그인 중입니다.");
 		lblNewLabel_1.setBounds(25, 10, 270, 34);
@@ -126,7 +138,7 @@ public class StudentUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("제출");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String request = "1/1";
+				String request = "1/1" ;
 				request = request + "/" + studentName + "/ " + quizNumber + "/" + textField.getText() + "\r\n";
 				requestServer(request, serverIp);
 				textField.setText("");

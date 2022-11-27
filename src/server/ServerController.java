@@ -1,6 +1,7 @@
 package server;
 
 import database.ChallengeInfo;
+import database.LoginInfo;
 import database.Quiz;
 import database.Total;
 import java.util.ArrayList;
@@ -52,10 +53,22 @@ public class ServerController {
             // 정답 제출하기
             else if (callProtocol(request).equals("1")) {
                 studentProtocol.setAnswer(request);
+                //studentProtocol.giveScore(request);
                 return "정답 제출 완료\r\n";
             }
+            //점수 가져오기
+            else if(callProtocol(request).equals("2")){
+                ArrayList<LoginInfo> info = studentProtocol.returnPoint(request);
+                for(int a = 0; a < info.size(); a++){
+                    if(info.get(a).name == total.info.get(a).name){
+                        return Integer.toString(total.info.get(a).point) + "\r\n";
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
         }
-
         return act;
     }
 
@@ -72,16 +85,4 @@ public class ServerController {
         String[] strArr = request.split("/");
         return strArr[1];
     }
-
-    // 학생의 답안으로 채점
-    private Boolean gradeProblem() {
-
-        return null;
-    }
-
-    // gradeProblem을 바탕으로 점수 반영
-    private void reflectScore() {
-
-    }
-
 }
