@@ -46,7 +46,6 @@ public class TeacherProtocol {
         return total.info;
     }
     public synchronized void givePoint(String request){
-
+        
     }
-
 }

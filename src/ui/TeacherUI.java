@@ -97,9 +97,6 @@ public class TeacherUI extends JFrame {
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
-						if(res == "교수"){
-							
-						}
 						System.out.println(res);
 						listModel.addElement(res);
 					}
@@ -155,7 +152,6 @@ public class TeacherUI extends JFrame {
 		btnNewButton_3.setBounds(105, 49, 127, 23);
 		contentPane.add(btnNewButton_3);
 
-
 		JButton btnNewButton_4 = new JButton("학생 성적 확인");
 		btnNewButton_4.setBounds(315, 49, 127, 23);
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -171,8 +167,13 @@ public class TeacherUI extends JFrame {
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
-						System.out.println(res);
-						listModel.addElement(res);
+						if(res.contains("교수")){
+							continue;
+						}
+						else{
+							System.out.println(res);
+							listModel.addElement(res);
+						}
 					}
 
 					lblNewLabel_2.setText("등록인원 정보입니다.");
