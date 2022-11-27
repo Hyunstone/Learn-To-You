@@ -1,6 +1,7 @@
 package server;
 
 import database.ChallengeInfo;
+import database.LoginInfo;
 import database.Quiz;
 import database.Total;
 import java.util.ArrayList;
@@ -30,8 +31,22 @@ public class TeacherProtocol {
     // 서버에 있는 학생들의 답안을 선생에게 줌
     public ArrayList<ChallengeInfo> pushStudentAnswer() {
         for (ChallengeInfo challengeInfo: total.challengeInfo) {
-            System.out.println(challengeInfo.name + " " + challengeInfo.quizNumber + " " + challengeInfo.result);
+            System.out.println(total.challengeInfo);
         }
         return total.challengeInfo;
     }
+
+    //서버에 있는 학생들의 성적을 선생에게 전달
+    public ArrayList<LoginInfo> pushPoint(){
+        ArrayList<LoginInfo> temp = new ArrayList<>();
+//        for(LoginInfo loginInfo : total.info){
+//            System.out.println(total.info);
+//        }
+        System.out.println(total.info);
+        return total.info;
+    }
+    public synchronized void givePoint(String request){
+
+    }
+
 }

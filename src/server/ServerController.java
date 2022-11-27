@@ -39,6 +39,11 @@ public class ServerController {
                 ArrayList<ChallengeInfo> challengeInfos = teacherProtocol.pushStudentAnswer();
                 return challengeInfos + "\r\n";
             }
+            //학생들 성적 확인
+            else if(callProtocol(request).equals("3")){
+                ArrayList<LoginInfo> loginInfos = teacherProtocol.pushPoint();
+                return loginInfos + "\r\n";
+            }
         }
         // 학생 프로토콜
         else {

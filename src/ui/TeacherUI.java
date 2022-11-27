@@ -2,9 +2,9 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
 import java.io.*;
 import java.net.Socket;
 
@@ -78,7 +78,7 @@ public class TeacherUI extends JFrame {
 				//System.out.println(response);
 			}
 		});
-		btnNewButton_1.setBounds(25, 49, 97, 23);
+		btnNewButton_1.setBounds(15, 49, 97, 23);
 		contentPane.add(btnNewButton_1);
 		lblNewLabel_2.setText("시험응시 결과 버튼을 눌러주세요");
 		
@@ -97,6 +97,9 @@ public class TeacherUI extends JFrame {
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
+						if(res == "교수"){
+							
+						}
 						System.out.println(res);
 						listModel.addElement(res);
 					}
@@ -106,7 +109,7 @@ public class TeacherUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_2.setBounds(273, 49, 97, 23);
+		btnNewButton_2.setBounds(225, 49, 97, 23);
 		contentPane.add(btnNewButton_2);
 		
 		JPanel panel = new JPanel();
@@ -129,6 +132,7 @@ public class TeacherUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String request = "0/1" + "\r\n";
 				String response = requestServer(request, serverIp);
+				System.out.println("ㅁ니아ㅓㄹㅁㄴ" + response);
 				// 이 부분은 '[,]' 이거 날리는 부분입니다.
 				response = response.replace(String.valueOf(response.charAt(0)), "");
 				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
@@ -148,17 +152,47 @@ public class TeacherUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_3.setBounds(134, 49, 127, 23);
+		btnNewButton_3.setBounds(105, 49, 127, 23);
 		contentPane.add(btnNewButton_3);
-		
-		JButton btnNewButton_4 = new JButton("채팅을 원하시면, 클릭하세요.");
+
+
+		JButton btnNewButton_4 = new JButton("학생 성적 확인");
+		btnNewButton_4.setBounds(315, 49, 127, 23);
 		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String request = "0/3" + "\r\n";
+				String response = requestServer(request, serverIp);
+				// 이 부분은 '[,]' 이거 날리는 부분입니다.
+				response = response.replace(String.valueOf(response.charAt(0)), "");
+				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
+				String[] resArr = response.split(",");
+				if(resArr.length == 0) {
+					lblNewLabel_2.setText("등록된 문제가 없습니다.");
+				} else {
+					listModel = new DefaultListModel();
+					for (String res : resArr) {
+						System.out.println(res);
+						listModel.addElement(res);
+					}
+
+					lblNewLabel_2.setText("등록인원 정보입니다.");
+					list_1.setModel(listModel);
+				}
+			}
+		});
+		contentPane.add(btnNewButton_4);
+
+
+		JButton btnNewButton_5 = new JButton("채팅을 원하시면, 클릭하세요.");
+		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mcc = new MultiChatClient("127.0.0.1", teacherName);
 			}
 		});
-		btnNewButton_4.setBounds(28, 270, 394, 23);
-		contentPane.add(btnNewButton_4);
+		btnNewButton_5.setBounds(28, 270, 394, 23);
+		contentPane.add(btnNewButton_5);
+
+
 	}
 
 	public String requestServer(String requestString, String ip) {

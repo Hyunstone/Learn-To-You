@@ -9,5 +9,7 @@ public class LoginInfo {
 		this.name = name;
 		this.point = point;
 	}
-
+	public String toString() {
+		return job + "/" + name + "/" + point;
+	}
 }
