@@ -21,8 +21,6 @@ public class ServerController {
     // request 받은 내용을 분석 후 알맞은 행동을 선택하도록 리턴
     public String response(String request) {
         String act = null;
-        //System.out.println("작동중");
-        //System.out.println(request);
         // 선생 프로토콜
         if (isTeacherProtocol(request)) {
             // 문제 저장
@@ -41,7 +39,6 @@ public class ServerController {
                 ArrayList<ChallengeInfo> challengeInfos = teacherProtocol.pushStudentAnswer();
                 return challengeInfos + "\r\n";
             }
-            // 추가 구현: 학생들 점수만 가져오기
         }
         // 학생 프로토콜
         else {
@@ -53,18 +50,16 @@ public class ServerController {
             // 정답 제출하기
             else if (callProtocol(request).equals("1")) {
                 studentProtocol.setAnswer(request);
-                //studentProtocol.giveScore(request);
+                studentProtocol.giveScore(request);
                 return "정답 제출 완료\r\n";
             }
             //점수 가져오기
-            else if(callProtocol(request).equals("2")){
-                ArrayList<LoginInfo> info = studentProtocol.returnPoint(request);
-                for(int a = 0; a < info.size(); a++){
-                    if(info.get(a).name == total.info.get(a).name){
-                        return Integer.toString(total.info.get(a).point) + "\r\n";
-                    }
-                    else{
-                        continue;
+            else if (callProtocol(request).equals("2")) {
+                String[] strArr = request.split("/");
+
+                for (LoginInfo info: total.info) {
+                    if (info.name.equals(strArr[2])) {
+                        return info.point + "\r\n";
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package database;
 public class LoginInfo {
 	public String job;
+
 	public String name;
 	public int point;
 	public LoginInfo(String job, String name, int point){
@@ -8,4 +9,5 @@ public class LoginInfo {
 		this.name = name;
 		this.point = point;
 	}
+
 }
