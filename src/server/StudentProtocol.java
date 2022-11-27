@@ -1,6 +1,7 @@
 package server;
 
 import database.ChallengeInfo;
+import database.LoginInfo;
 import database.Quiz;
 import database.Total;
 
@@ -28,5 +29,29 @@ public class StudentProtocol {
         int quizNum = Integer.parseInt(tempStr.trim());
         total.challengeInfo.add(new ChallengeInfo(strArr[2], quizNum, strArr[4]));
     }
-
+    public ArrayList<LoginInfo> returnPoint(String request){
+        String[] strArr = request.split("/");
+        String sName = strArr[2];
+        return total.info;
+    }
+//    public synchronized void giveScore(String request) {
+//        String[] strArr = request.split("/");
+//        String tempStr = strArr[3];
+//        int quizNum = Integer.parseInt(tempStr.trim());
+//        for(int a = 0; a < total.quiz.size(); a++){//퀴즈 순회
+//            if(quizNum == total.quiz.get(a).number ){//문제 번호 찾기
+//                String sName = strArr[2];//학생 리스트값 변경을 위한 이름 저장
+//                int givePoint = total.info.get(a).point + 1;
+//                if(strArr[4] == total.quiz.get(a).answer){//정답 확인
+//                    total.info.set(Integer.parseInt(strArr[0]), new LoginInfo("학생", sName, givePoint));
+//                }
+//                else{
+//                    total.info.set(Integer.parseInt(strArr[0]), new LoginInfo("학생", sName, givePoint));
+//                }
+//            }
+//            else{
+//                continue;
+//            }
+//        }
+//    }
 }

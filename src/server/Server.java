@@ -66,8 +66,6 @@ public class Server {
                     responseBuffer.write(response);
                     responseBuffer.flush();
                 }
-
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

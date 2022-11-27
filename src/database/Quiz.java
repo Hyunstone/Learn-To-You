@@ -10,10 +10,8 @@ public class Quiz {
 		this.problem=problem;
 		this.answer=answer;
 	}
-
 	@Override
 	public String toString() {
 		return number + "/" + problem;
 	}
-	
 }
