@@ -128,7 +128,6 @@ public class TeacherUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String request = "0/1" + "\r\n";
 				String response = requestServer(request, serverIp);
-				//System.out.println("ㅁ니아ㅓㄹㅁㄴ" + response);
 				// 이 부분은 '[,]' 이거 날리는 부분입니다.
 				response = response.replace(String.valueOf(response.charAt(0)), "");
 				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
@@ -182,7 +181,6 @@ public class TeacherUI extends JFrame {
 		});
 		contentPane.add(btnNewButton_4);
 
-
 		JButton btnNewButton_5 = new JButton("채팅을 원하시면, 클릭하세요.");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -191,8 +189,6 @@ public class TeacherUI extends JFrame {
 		});
 		btnNewButton_5.setBounds(28, 270, 394, 23);
 		contentPane.add(btnNewButton_5);
-
-
 	}
 
 	public String requestServer(String requestString, String ip) {

@@ -57,10 +57,11 @@ public class StudentUI extends JFrame {
 		contentPane.add(list);
 
 		list.addListSelectionListener(new ListSelectionListener() {
+			String quizText = "1";
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
+				quizText = (String) list.getSelectedValue();
 				if(!event.getValueIsAdjusting()) {
-					String quizText = (String) list.getSelectedValue();
 					quizNumber = String.valueOf(quizText.charAt(0));
 					lblNewLabel_2.setText(quizText);
 					textField.setText("");
@@ -158,7 +159,38 @@ public class StudentUI extends JFrame {
 				submittedList.set(Integer.parseInt(quizNumber) - 1, new quizState(quizNumber, true));
 				textField.setText("");
 
+				// 밑에 부분은 문제를 제출하고 나서 문제리스트를 업데이트하는 부분
+				// 결국 다시 문제를 조회하는 상황
+				String requestQuiz = "1/0" + "\r\n";
+				String response = requestServer(requestQuiz, serverIp);
+				// 이 부분은 '[,]' 이거 날리는 부분입니다.
+				response = response.replace(String.valueOf(response.charAt(0)), "");
+				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
+				String[] resArr = response.split(",");
 
+				if(resArr.length == 0) {
+					lblNewLabel.setText("등록된 문제가 없습니다.");
+				} else {
+					listModel = new DefaultListModel();
+					for (String res : resArr) {
+						res = res.trim();
+						String[] tempArr = res.split("/");
+						// 퀴즈의 숫자보다 문제번호 - 1 이 더 크면
+						// 문제 제출여부 객체 생성
+						if (submittedList.size() < Integer.parseInt(tempArr[0])) {
+							submittedList.add(new quizState(tempArr[0], false));
+						}
+						// list를 업데이트하는 부분
+						for (quizState state: submittedList) {
+							if (tempArr[0].equals(state.quizNum) && (state.submitted == false)) {
+								listModel.addElement(res);
+							}
+						}
+					}
+
+					lblNewLabel.setText("남은 문제 "+ listModel.getSize() +"건 있습니다.");
+					list.setModel(listModel);
+				}
 			}
 		});
 		btnNewButton_1.setBounds(153, 122, 61, 41);
