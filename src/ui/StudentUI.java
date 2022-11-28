@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import database.Quiz;
 import network.MultiChatClient;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class StudentUI extends JFrame {
 	private MultiChatClient mcc;
@@ -29,12 +31,14 @@ public class StudentUI extends JFrame {
 	private BufferedWriter request;
 	private Socket socket;
 	DefaultListModel listModel;
+	ArrayList<quizState> submittedList;
 
 	private String quizNumber;
 
 	public StudentUI(String studentName) {
-		this.studentName  = studentName;  //이름 설정
-		this.serverIp = serverIp;
+		this.studentName  = studentName;  // 이름 설정
+		// this.serverIp = serverIp;
+		this.submittedList = new ArrayList<>();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 356);
@@ -81,19 +85,29 @@ public class StudentUI extends JFrame {
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
-						System.out.println(res);
 						res = res.trim();
-						listModel.addElement(res);
+						String[] tempArr = res.split("/");
+						// 퀴즈의 숫자보다 문제번호 - 1 이 더 크면
+						// 문제 제출여부 객체 생성
+						if (submittedList.size() < Integer.parseInt(tempArr[0])) {
+							submittedList.add(new quizState(tempArr[0], false));
+						}
+						// list를 업데이트하는 부분
+						for (quizState state: submittedList) {
+							if (tempArr[0].equals(state.quizNum) && (state.submitted == false)) {
+								listModel.addElement(res);
+							}
+						}
 					}
 
-					lblNewLabel.setText("등록된 문제 "+ resArr.length +"건 있습니다.");
+					lblNewLabel.setText("남은 문제 "+ listModel.getSize() +"건 있습니다.");
 					list.setModel(listModel);
 				}
 			}
 		});
 		contentPane.add(quizRefreshButton);
 
-		JButton pointCheckButton = new JButton("현제 점수 확인");
+		JButton pointCheckButton = new JButton("현재 점수 확인");
 		pointCheckButton.setFont(new Font("맑은 고딕",Font.BOLD, 10));
 		pointCheckButton.setBounds(250, 55, 100, 23);
 
@@ -141,7 +155,10 @@ public class StudentUI extends JFrame {
 				String request = "1/1" ;
 				request = request + "/" + studentName + "/ " + quizNumber + "/" + textField.getText() + "\r\n";
 				requestServer(request, serverIp);
+				submittedList.set(Integer.parseInt(quizNumber) - 1, new quizState(quizNumber, true));
 				textField.setText("");
+
+
 			}
 		});
 		btnNewButton_1.setBounds(153, 122, 61, 41);
@@ -171,7 +188,7 @@ public class StudentUI extends JFrame {
 			request.flush();
 
 			responseOutput = response.readLine();
-			System.out.println(responseOutput);
+			//System.out.println(responseOutput);
 
 			socket.close();
 		} catch (Exception e) {
@@ -179,5 +196,23 @@ public class StudentUI extends JFrame {
 			throw new RuntimeException(e);
 		}
 		return responseOutput;
+	}
+
+	class quizState {
+		String quizNum;
+		Boolean submitted;
+
+		public quizState(String quizNum, Boolean submitted) {
+			this.quizNum = quizNum;
+			this.submitted = submitted;
+		}
+	}
+
+	class QuizReload implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+		}
 	}
 }

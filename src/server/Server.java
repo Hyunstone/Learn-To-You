@@ -31,9 +31,7 @@ public class Server {
             System.out.println("server start");
 
             while(true) {
-                System.out.println("up");
                 s = ss.accept();
-                System.out.println("down");
                 ServerThread serverThread = new ServerThread();
                 serverThread.start();
             }

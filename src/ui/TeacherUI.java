@@ -97,7 +97,6 @@ public class TeacherUI extends JFrame {
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
-						System.out.println(res);
 						listModel.addElement(res);
 					}
 
@@ -129,7 +128,7 @@ public class TeacherUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String request = "0/1" + "\r\n";
 				String response = requestServer(request, serverIp);
-				System.out.println("ㅁ니아ㅓㄹㅁㄴ" + response);
+				//System.out.println("ㅁ니아ㅓㄹㅁㄴ" + response);
 				// 이 부분은 '[,]' 이거 날리는 부분입니다.
 				response = response.replace(String.valueOf(response.charAt(0)), "");
 				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
