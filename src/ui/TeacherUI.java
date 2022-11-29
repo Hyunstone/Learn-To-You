@@ -27,7 +27,7 @@ public class TeacherUI extends JFrame {
 	
 	public TeacherUI(String teacherName) {
 		this.teacherName  = teacherName;  //이름 설정
-		this.serverIp = serverIp;
+		//this.serverIp = serverIp;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 465, 353);
@@ -132,13 +132,14 @@ public class TeacherUI extends JFrame {
 				response = response.replace(String.valueOf(response.charAt(0)), "");
 				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
 				String[] resArr = response.split(",");
+				resArr[0] = resArr[0].replace("\n", "");
 
-				if(resArr.length == 0) {
+				if (response.equals("")) {
 					lblNewLabel_1.setText("등록된 문제가 없습니다.");
 				} else {
 					listModel = new DefaultListModel();
 					for (String res : resArr) {
-						System.out.println(res);
+						//System.out.println(res);
 						listModel.addElement(res);
 					}
 
@@ -160,6 +161,7 @@ public class TeacherUI extends JFrame {
 				response = response.replace(String.valueOf(response.charAt(0)), "");
 				response = response.replace(String.valueOf(response.charAt(response.length() - 1)), "");
 				String[] resArr = response.split(",");
+
 				if(resArr.length == 0) {
 					lblNewLabel_2.setText("등록된 문제가 없습니다.");
 				} else {
@@ -206,7 +208,7 @@ public class TeacherUI extends JFrame {
 
 			responseOutput = response.readLine();
 			//String[] strArr = responseOutput.split("/");
-			System.out.println(responseOutput);
+			//System.out.println(responseOutput);
 
 			socket.close();
 		} catch (Exception e) {

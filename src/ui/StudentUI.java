@@ -37,7 +37,6 @@ public class StudentUI extends JFrame {
 
 	public StudentUI(String studentName) {
 		this.studentName  = studentName;  // 이름 설정
-		// this.serverIp = serverIp;
 		this.submittedList = new ArrayList<>();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,23 +50,6 @@ public class StudentUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("문제를 선택해주세요.");
 		lblNewLabel.setBounds(25, 54, 130, 15);
 		contentPane.add(lblNewLabel);
-
-		list = new JList();
-		list.setBounds(25, 79, 130, 132);
-		contentPane.add(list);
-
-		list.addListSelectionListener(new ListSelectionListener() {
-			String quizText = "1";
-			@Override
-			public void valueChanged(ListSelectionEvent event) {
-				quizText = (String) list.getSelectedValue();
-				if(!event.getValueIsAdjusting()) {
-					quizNumber = String.valueOf(quizText.charAt(0));
-					lblNewLabel_2.setText(quizText);
-					textField.setText("");
-				}
-			}
-		});
 
 		JButton quizRefreshButton = new JButton("문제 불러오기");
 		quizRefreshButton.setFont(new Font("맑은 고딕",Font.BOLD, 10));
@@ -149,6 +131,23 @@ public class StudentUI extends JFrame {
 		textField.setBounds(12, 123, 129, 40);
 		panel.add(textField);
 		textField.setColumns(10);
+
+		list = new JList();
+		list.setBounds(25, 79, 130, 132);
+		contentPane.add(list);
+
+		list.addListSelectionListener(new ListSelectionListener() {
+			String quizText = null;
+			@Override
+			public void valueChanged(ListSelectionEvent event) {
+				quizText = (String) list.getSelectedValue();
+				if(!event.getValueIsAdjusting()) {
+					quizNumber = String.valueOf(quizText.charAt(0));
+					lblNewLabel_2.setText(quizText);
+					textField.setText("");
+				}
+			}
+		});
 		
 		JButton btnNewButton_1 = new JButton("제출");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -220,8 +219,6 @@ public class StudentUI extends JFrame {
 			request.flush();
 
 			responseOutput = response.readLine();
-			//System.out.println(responseOutput);
-
 			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -237,14 +234,6 @@ public class StudentUI extends JFrame {
 		public quizState(String quizNum, Boolean submitted) {
 			this.quizNum = quizNum;
 			this.submitted = submitted;
-		}
-	}
-
-	class QuizReload implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
 		}
 	}
 }
